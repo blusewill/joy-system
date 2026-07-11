@@ -25,8 +25,11 @@ sudo apt install chromium -y
 git clone https://github.com/blusewill/joy-system
 cd joy-system/dwm
 sudo make install
+sudo cp dwm.desktop /usr/share/xsessions/
+sudo rm /usr/share/xsessions/lightdm-xsession.desktop
 sudo systemctl enable lightdm
 
 # Clone autostart file
 cd ..
+mkdir -p ~/.config/autostart
 cp autostart/* $HOME/.config/autostart/
