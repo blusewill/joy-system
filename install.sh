@@ -59,6 +59,7 @@ sudo apt install -y \
   build-essential \
   git \
   curl \
+  xterm \
   wget \
   unzip \
   lightdm \
@@ -149,11 +150,11 @@ echo "[8/10] Copy configuration..."
 
 mkdir -p "$HOME/.config"
 
-# Copy autologout script
-if [ -f "$HOME/joy-system/autologout.sh" ]; then
+# Copy session script
+if [ -f "$HOME/joy-system/session.sh" ]; then
   install -m 755 \
-    "$HOME/joy-system/autologout.sh" \
-    "$HOME/.config/autologout.sh"
+    "$HOME/joy-system/session.sh" \
+    "$HOME/.config/session.sh"
 fi
 
 # Copy dotconfig contents

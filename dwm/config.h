@@ -37,7 +37,7 @@ static const Rule rules[] = {
 };
 
 static const char *const autostart[] = {
-    "sh", "-c", "$HOME/.config/autologout.sh", NULL,
+    "sh", "-c", "$HOME/.config/session.sh", NULL,
     "volumeicon", NULL,
     "fcitx5", NULL,
 	  NULL
