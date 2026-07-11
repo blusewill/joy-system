@@ -1,7 +1,5 @@
 #!/bin/sh
 
-ROOT = $(PWD)
-
 # Test Mirror
 sudo apt update -y
 sudo apt install netselect-apt -y
@@ -15,7 +13,7 @@ sudo apt update -y
 sudo apt upgrade -y
 
 # Install Dependency
-sudo apt install xorg-dev lightdm dex curl git wget build-essential -y
+sudo apt install xorg-dev lightdm dex curl git wget build-essential wget -y
 sudo apt install fcitx5 fcitx5-chewing fcitx5-config-qt -y
 
 # Install Chromium
@@ -30,18 +28,19 @@ sudo rm /usr/share/xsessions/lightdm-xsession.desktop
 sudo systemctl enable lightdm
 
 # Install Pipewire
-sudo apt install wireplumber pipewire pipewire-pulse pipewire-alsa pavucontrol
+sudo apt install wireplumber pipewire pipewire-pulse pipewire-alsa pavucontrol -y
 systemctl --user enable wireplumber pipewire pipewire-pulse
 
 # Install Chinese Traditional Font
-curl https://github.com/ButTaiwan/gensen-font/releases/download/v2.100/GenSenRounded2TW-otf.zip -O font.zip
+wget https://github.com/ButTaiwan/gensen-font/releases/download/v2.100/GenSenRounded2TW-otf.zip -O font.zip
 mkdir -p $HOME/.local/share/fonts
 unzip font.zip $HOME/.local/share/fonts/
 rm font.zip
 fc-cache -rv
 
 # Moving Detection Script into dotconfig
-mv ../autologout.sh $HOME/.config/
+cd ..
+mv autologout.sh $HOME/.config/autologout.sh
 
 # Edit Grub to boot in 0 timeout
 sudo sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
