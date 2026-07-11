@@ -149,10 +149,10 @@ echo "[8/10] Copy configuration..."
 
 mkdir -p "$HOME/.config"
 
-if [ -f "$HOME/joy-system/autologout.sh" ]; then
-  cp "$HOME/joy-system/autologout.sh" \
-    "$HOME/.config/autologout.sh"
-  chmod +x "$HOME/.config/autologout.sh"
+if [ -f "$HOME/joy-system/session.sh" ]; then
+  cp "$HOME/joy-system/session.sh" \
+    "$HOME/.config/session.sh"
+  chmod +x "$HOME/.config/session.sh"
 fi
 
 if [ -d "$HOME/joy-system/dotconfig" ]; then
