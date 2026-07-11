@@ -24,7 +24,7 @@ fi
 ########################################
 
 echo
-echo "[1/11] Selecting Taiwan mirror..."
+echo "[1/10] Selecting Taiwan mirror..."
 
 sudo apt update
 sudo apt install -y netselect-apt
@@ -43,7 +43,7 @@ sudo cp sources.list /etc/apt/sources.list
 ########################################
 
 echo
-echo "[2/11] Updating packages..."
+echo "[2/10] Updating packages..."
 
 sudo apt update
 sudo apt full-upgrade -y
@@ -53,7 +53,7 @@ sudo apt full-upgrade -y
 ########################################
 
 echo
-echo "[3/11] Installing packages..."
+echo "[3/10] Installing packages..."
 
 sudo apt install -y \
   build-essential \
@@ -65,6 +65,7 @@ sudo apt install -y \
   xorg-dev \
   chromium \
   fcitx5 \
+  volumeicon-alsa \
   fcitx5-chewing \
   fcitx5-config-qt \
   wireplumber \
@@ -78,7 +79,7 @@ sudo apt install -y \
 ########################################
 
 echo
-echo "[4/11] Enabling PipeWire..."
+echo "[4/10] Enabling PipeWire..."
 
 systemctl --user enable --now \
   wireplumber \
@@ -90,7 +91,7 @@ systemctl --user enable --now \
 ########################################
 
 echo
-echo "[5/11] Downloading Joy System..."
+echo "[5/10] Downloading Joy System..."
 
 cd "$HOME"
 
@@ -103,7 +104,7 @@ fi
 ########################################
 
 echo
-echo "[6/11] Installing DWM..."
+echo "[6/10] Installing DWM..."
 
 cd "$HOME/joy-system/dwm"
 
@@ -124,7 +125,7 @@ sudo systemctl enable lightdm
 ########################################
 
 echo
-echo "[7/11] Installing GenSenRounded..."
+echo "[7/10] Installing GenSenRounded..."
 
 cd "$HOME"
 
@@ -144,14 +145,22 @@ fc-cache -fv
 ########################################
 
 echo
-echo "[8/11] Copy configuration..."
+echo "[8/10] Copy configuration..."
 
 mkdir -p "$HOME/.config"
 
+# Copy autologout script
 if [ -f "$HOME/joy-system/autologout.sh" ]; then
-  cp "$HOME/joy-system/autologout.sh" \
+  install -m 755 \
+    "$HOME/joy-system/autologout.sh" \
     "$HOME/.config/autologout.sh"
-  chmod +x "$HOME/.config/autologout.sh"
+fi
+
+# Copy dotconfig contents
+if [ -d "$HOME/joy-system/dotconfig" ]; then
+  cp -a \
+    "$HOME/joy-system/dotconfig/." \
+    "$HOME/.config/"
 fi
 
 ########################################
@@ -159,7 +168,7 @@ fi
 ########################################
 
 echo
-echo "[9/11] Configuring GRUB..."
+echo "[9/10] Configuring GRUB..."
 
 sudo sed -i \
   's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' \
@@ -172,13 +181,7 @@ sudo update-grub
 ########################################
 
 echo
-echo "[10/11] Installing voctl for volume control"
-echo
-
-mkdir -p "$HOME/.local/share/bin"
-
-echo
-echo "[11/11] Done!"
+echo "[10/10] Done!"
 echo
 
 sudo reboot

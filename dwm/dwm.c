@@ -2275,7 +2275,7 @@ void
 updatestatus(void)
 {
 	if (!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
-		strcpy(stext, "dwm-"VERSION);
+		strcpy(stext, "JOY-ENGLISH-ONLINE-ONLY");
 	drawbar(selmon);
 	updatesystray();
 }
