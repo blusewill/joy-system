@@ -15,8 +15,8 @@ echo "==============================="
 ########################################
 
 if ! command -v sudo >/dev/null; then
-    echo "sudo not found."
-    exit 1
+  echo "sudo not found."
+  exit 1
 fi
 
 ########################################
@@ -24,7 +24,7 @@ fi
 ########################################
 
 echo
-echo "[1/10] Selecting Taiwan mirror..."
+echo "[1/11] Selecting Taiwan mirror..."
 
 sudo apt update
 sudo apt install -y netselect-apt
@@ -32,7 +32,7 @@ sudo apt install -y netselect-apt
 TMPDIR=$(mktemp -d)
 cd "$TMPDIR"
 
-sudo netselect-apt -c TW -t 2 > sources.list
+sudo netselect-apt -c TW -t 2 >sources.list
 
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
 
@@ -43,7 +43,7 @@ sudo cp sources.list /etc/apt/sources.list
 ########################################
 
 echo
-echo "[2/10] Updating packages..."
+echo "[2/11] Updating packages..."
 
 sudo apt update
 sudo apt full-upgrade -y
@@ -53,50 +53,49 @@ sudo apt full-upgrade -y
 ########################################
 
 echo
-echo "[3/10] Installing packages..."
+echo "[3/11] Installing packages..."
 
 sudo apt install -y \
-    build-essential \
-    git \
-    curl \
-    wget \
-    unzip \
-    dex \
-    lightdm \
-    xorg-dev \
-    chromium \
-    fcitx5 \
-    fcitx5-chewing \
-    fcitx5-config-qt \
-    wireplumber \
-    pipewire \
-    pipewire-pulse \
-    pipewire-alsa \
-    pavucontrol
+  build-essential \
+  git \
+  curl \
+  wget \
+  unzip \
+  lightdm \
+  xorg-dev \
+  chromium \
+  fcitx5 \
+  fcitx5-chewing \
+  fcitx5-config-qt \
+  wireplumber \
+  pipewire \
+  pipewire-pulse \
+  pipewire-alsa \
+  pavucontrol
 
 ########################################
 # PipeWire
 ########################################
 
 echo
-echo "[4/10] Enabling PipeWire..."
+echo "[4/11] Enabling PipeWire..."
 
 systemctl --user enable --now \
-    wireplumber \
-    pipewire \
-    pipewire-pulse || true
+  wireplumber \
+  pipewire \
+  pipewire-pulse || true
 
 ########################################
 # Clone Joy System
 ########################################
 
 echo
-echo "[5/10] Downloading Joy System..."
+echo "[5/11] Downloading Joy System..."
 
 cd "$HOME"
 
 if [ ! -d joy-system ]; then
-    git clone https://github.com/blusewill/joy-system
+  git clone https://github.com/blusewill/joy-system
 fi
 
 ########################################
@@ -104,7 +103,7 @@ fi
 ########################################
 
 echo
-echo "[6/10] Installing DWM..."
+echo "[6/11] Installing DWM..."
 
 cd "$HOME/joy-system/dwm"
 
@@ -113,7 +112,7 @@ make
 sudo make install
 
 if [ -f dwm.desktop ]; then
-    sudo cp dwm.desktop /usr/share/xsessions/
+  sudo cp dwm.desktop /usr/share/xsessions/
 fi
 
 sudo rm -f /usr/share/xsessions/lightdm-xsession.desktop
@@ -125,12 +124,12 @@ sudo systemctl enable lightdm
 ########################################
 
 echo
-echo "[7/10] Installing GenSenRounded..."
+echo "[7/11] Installing GenSenRounded..."
 
 cd "$HOME"
 
 wget -O font.zip \
-https://github.com/ButTaiwan/gensen-font/releases/download/v2.100/GenSenRounded2TW-otf.zip
+  https://github.com/ButTaiwan/gensen-font/releases/download/v2.100/GenSenRounded2TW-otf.zip
 
 mkdir -p "$HOME/.local/share/fonts"
 
@@ -145,14 +144,14 @@ fc-cache -fv
 ########################################
 
 echo
-echo "[8/10] Copy configuration..."
+echo "[8/11] Copy configuration..."
 
 mkdir -p "$HOME/.config"
 
 if [ -f "$HOME/joy-system/autologout.sh" ]; then
-    cp "$HOME/joy-system/autologout.sh" \
-       "$HOME/.config/autologout.sh"
-    chmod +x "$HOME/.config/autologout.sh"
+  cp "$HOME/joy-system/autologout.sh" \
+    "$HOME/.config/autologout.sh"
+  chmod +x "$HOME/.config/autologout.sh"
 fi
 
 ########################################
@@ -160,11 +159,11 @@ fi
 ########################################
 
 echo
-echo "[9/10] Configuring GRUB..."
+echo "[9/11] Configuring GRUB..."
 
 sudo sed -i \
-'s/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' \
-/etc/default/grub
+  's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' \
+  /etc/default/grub
 
 sudo update-grub
 
@@ -173,11 +172,13 @@ sudo update-grub
 ########################################
 
 echo
-echo "[10/10] Done!"
+echo "[10/11] Installing voctl for volume control"
 echo
 
-read -rp "Reboot now? [y/N] " ans
+mkdir -p "$HOME/.local/share/bin"
 
-if [[ "$ans" =~ ^[Yy]$ ]]; then
-    sudo reboot
-fi
+echo
+echo "[11/11] Done!"
+echo
+
+sudo reboot
