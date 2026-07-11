@@ -29,6 +29,21 @@ sudo cp dwm.desktop /usr/share/xsessions/
 sudo rm /usr/share/xsessions/lightdm-xsession.desktop
 sudo systemctl enable lightdm
 
+# Install Pipewire
+sudo apt install wireplumber pipewire pipewire-pulse pipewire-alsa pavucontrol
+systemctl --user enable wireplumber pipewire pipewire-pulse
+
+# Install Chinese Traditional Font
+curl https://github.com/ButTaiwan/gensen-font/releases/download/v2.100/GenSenRounded2TW-otf.zip -O font.zip
+mkdir -p $HOME/.local/share/fonts
+unzip font.zip $HOME/.local/share/fonts/
+rm font.zip
+fc-cache -rv
+
+# Moving Detection Script into dotconfig
+mv ../autologout.sh $HOME/.config/
+
 # Edit Grub to boot in 0 timeout
 sudo sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
 sudo update-grub
+sudo systemctl reboot
