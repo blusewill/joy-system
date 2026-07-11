@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ROOT = $(PWD)
+
 # Test Mirror
 sudo apt update -y
 sudo apt install netselect-apt -y
@@ -20,3 +22,11 @@ sudo apt install fcitx5 fcitx5-chewing fcitx5-qt fcitx5-gtk -y
 sudo apt install chromium -y
 
 # Git Clone DWM
+git clone https://github.com/blusewill/joy-system
+cd joy-system/dwm
+sudo make install
+sudo systemctl enable lightdm
+
+# Clone autostart file
+cd ..
+cp autostart/* $HOME/.config/autostart/
