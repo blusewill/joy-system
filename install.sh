@@ -149,18 +149,14 @@ echo "[8/10] Copy configuration..."
 
 mkdir -p "$HOME/.config"
 
-# Copy session script
-if [ -f "$HOME/joy-system/session.sh" ]; then
-  install -m 755 \
-    "$HOME/joy-system/session.sh" \
-    "$HOME/.config/session.sh"
+if [ -f "$HOME/joy-system/autologout.sh" ]; then
+  cp "$HOME/joy-system/autologout.sh" \
+    "$HOME/.config/autologout.sh"
+  chmod +x "$HOME/.config/autologout.sh"
 fi
 
-# Copy dotconfig contents
 if [ -d "$HOME/joy-system/dotconfig" ]; then
-  cp -a \
-    "$HOME/joy-system/dotconfig/." \
-    "$HOME/.config/"
+  cp -a "$HOME/joy-system/dotconfig/." "$HOME/.config/"
 fi
 
 ########################################
