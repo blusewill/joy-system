@@ -59,7 +59,6 @@ sudo apt install -y \
   build-essential \
   git \
   curl \
-  xterm \
   wget \
   unzip \
   lightdm \
