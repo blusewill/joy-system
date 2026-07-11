@@ -5,7 +5,7 @@ ROOT = $(PWD)
 # Test Mirror
 sudo apt update -y
 sudo apt install netselect-apt -y
-netselect-apt -c TW -t 2
+sudo netselect-apt -c TW -t 2
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
 sudo rm /etc/apt/sources.list
 sudo cp sources.list /etc/apt/sources.list
