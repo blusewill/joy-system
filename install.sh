@@ -29,7 +29,6 @@ sudo cp dwm.desktop /usr/share/xsessions/
 sudo rm /usr/share/xsessions/lightdm-xsession.desktop
 sudo systemctl enable lightdm
 
-# Clone autostart file
-cd ..
-mkdir -p ~/.config/autostart
-cp autostart/* $HOME/.config/autostart/
+# Edit Grub to boot in 0 timeout
+sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
+update-grub
