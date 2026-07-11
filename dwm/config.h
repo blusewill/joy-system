@@ -32,7 +32,7 @@ static const Rule rules[] = {
 };
 
 static const char *const autostart[] = {
-    "sh", "-c" "$HOME/.config/autologout.sh" NULL,
+    "sh", "-c", "$HOME/.config/autologout.sh", NULL,
     "fcitx5", NULL,
 	  NULL
 };

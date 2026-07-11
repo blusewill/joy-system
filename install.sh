@@ -1,48 +1,183 @@
-#!/bin/sh
+#!/bin/bash
 
-# Test Mirror
-sudo apt update -y
-sudo apt install netselect-apt -y
-sudo netselect-apt -c TW -t 2
+set -euo pipefail
+
+########################################
+# Joy System Installer
+########################################
+
+echo "==============================="
+echo " Joy System Installer"
+echo "==============================="
+
+########################################
+# Root Check
+########################################
+
+if ! command -v sudo >/dev/null; then
+    echo "sudo not found."
+    exit 1
+fi
+
+########################################
+# Update Mirror
+########################################
+
+echo
+echo "[1/10] Selecting Taiwan mirror..."
+
+sudo apt update
+sudo apt install -y netselect-apt
+
+TMPDIR=$(mktemp -d)
+cd "$TMPDIR"
+
+sudo netselect-apt -c TW -t 2 > sources.list
+
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
-sudo rm /etc/apt/sources.list
+
 sudo cp sources.list /etc/apt/sources.list
 
-# System-Wide Upgrade
-sudo apt update -y
-sudo apt upgrade -y
+########################################
+# Upgrade
+########################################
 
-# Install Dependency
-sudo apt install xorg-dev lightdm dex curl git wget build-essential wget -y
-sudo apt install fcitx5 fcitx5-chewing fcitx5-config-qt -y
+echo
+echo "[2/10] Updating packages..."
 
-# Install Chromium
-sudo apt install chromium -y
+sudo apt update
+sudo apt full-upgrade -y
 
-# Git Clone DWM
-git clone https://github.com/blusewill/joy-system
-cd joy-system/dwm
+########################################
+# Install Packages
+########################################
+
+echo
+echo "[3/10] Installing packages..."
+
+sudo apt install -y \
+    build-essential \
+    git \
+    curl \
+    wget \
+    unzip \
+    dex \
+    lightdm \
+    xorg-dev \
+    chromium \
+    fcitx5 \
+    fcitx5-chewing \
+    fcitx5-config-qt \
+    wireplumber \
+    pipewire \
+    pipewire-pulse \
+    pipewire-alsa \
+    pavucontrol
+
+########################################
+# PipeWire
+########################################
+
+echo
+echo "[4/10] Enabling PipeWire..."
+
+systemctl --user enable --now \
+    wireplumber \
+    pipewire \
+    pipewire-pulse || true
+
+########################################
+# Clone Joy System
+########################################
+
+echo
+echo "[5/10] Downloading Joy System..."
+
+cd "$HOME"
+
+if [ ! -d joy-system ]; then
+    git clone https://github.com/blusewill/joy-system
+fi
+
+########################################
+# Install DWM
+########################################
+
+echo
+echo "[6/10] Installing DWM..."
+
+cd "$HOME/joy-system/dwm"
+
+make
+
 sudo make install
-sudo cp dwm.desktop /usr/share/xsessions/
-sudo rm /usr/share/xsessions/lightdm-xsession.desktop
+
+if [ -f dwm.desktop ]; then
+    sudo cp dwm.desktop /usr/share/xsessions/
+fi
+
+sudo rm -f /usr/share/xsessions/lightdm-xsession.desktop
+
 sudo systemctl enable lightdm
 
-# Install Pipewire
-sudo apt install wireplumber pipewire pipewire-pulse pipewire-alsa pavucontrol -y
-systemctl --user enable wireplumber pipewire pipewire-pulse
+########################################
+# Install Font
+########################################
 
-# Install Chinese Traditional Font
-wget https://github.com/ButTaiwan/gensen-font/releases/download/v2.100/GenSenRounded2TW-otf.zip -O font.zip
-mkdir -p $HOME/.local/share/fonts
-unzip font.zip $HOME/.local/share/fonts/
+echo
+echo "[7/10] Installing GenSenRounded..."
+
+cd "$HOME"
+
+wget -O font.zip \
+https://github.com/ButTaiwan/gensen-font/releases/download/v2.100/GenSenRounded2TW-otf.zip
+
+mkdir -p "$HOME/.local/share/fonts"
+
+unzip -o font.zip -d "$HOME/.local/share/fonts"
+
 rm font.zip
-fc-cache -rv
 
-# Moving Detection Script into dotconfig
-cd ..
-mv autologout.sh $HOME/.config/autologout.sh
+fc-cache -fv
 
-# Edit Grub to boot in 0 timeout
-sudo sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
+########################################
+# Config
+########################################
+
+echo
+echo "[8/10] Copy configuration..."
+
+mkdir -p "$HOME/.config"
+
+if [ -f "$HOME/joy-system/autologout.sh" ]; then
+    cp "$HOME/joy-system/autologout.sh" \
+       "$HOME/.config/autologout.sh"
+    chmod +x "$HOME/.config/autologout.sh"
+fi
+
+########################################
+# GRUB
+########################################
+
+echo
+echo "[9/10] Configuring GRUB..."
+
+sudo sed -i \
+'s/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' \
+/etc/default/grub
+
 sudo update-grub
-sudo systemctl reboot
+
+########################################
+# Finish
+########################################
+
+echo
+echo "[10/10] Done!"
+echo
+
+read -rp "Reboot now? [y/N] " ans
+
+if [[ "$ans" =~ ^[Yy]$ ]]; then
+    sudo reboot
+fi
