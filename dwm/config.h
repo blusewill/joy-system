@@ -32,9 +32,9 @@ static const Rule rules[] = {
 };
 
 static const char *const autostart[] = {
-	"chromium", NULL,
-  "fcitx5", NULL,
-	NULL
+    "chromium", NULL,
+    "fcitx5", NULL,
+	  NULL
 };
 
 /* layout(s) */

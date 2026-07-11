@@ -16,7 +16,7 @@ sudo apt upgrade -y
 
 # Install Dependency
 sudo apt install xorg-dev lightdm dex curl git wget build-essential -y
-sudo apt install fcitx5 fcitx5-chewing fcitx5-qt fcitx5-gtk -y
+sudo apt install fcitx5 fcitx5-chewing fcitx5-config-qt -y
 
 # Install Chromium
 sudo apt install chromium -y
@@ -30,5 +30,5 @@ sudo rm /usr/share/xsessions/lightdm-xsession.desktop
 sudo systemctl enable lightdm
 
 # Edit Grub to boot in 0 timeout
-sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
-update-grub
+sudo sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
+sudo update-grub
