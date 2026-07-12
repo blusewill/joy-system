@@ -108,6 +108,8 @@ echo "[6/10] Installing DWM..."
 
 cd "$HOME/joy-system/dwm"
 
+make clean
+
 make
 
 sudo make install
