@@ -2,5 +2,5 @@
 Encoding=UTF-8
 Name=System Upgrade
 Comment=Upgrade the Entire System Using Topgrade!
-Exec=xterm -fa 'Monospace' -fs 20 -e /bin/bash -l -c "topgrade"
+Exec=xterm -fa 'Monospace' -fs 20 -e /bin/bash -l -c "$HOME/.local/share/bin/topgrade"
 Type=XSession
