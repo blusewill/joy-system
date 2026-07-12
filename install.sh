@@ -182,9 +182,13 @@ echo
 echo "[10/11] Installing Topgrade for full system upgrade"
 echo
 
-sudo apt install lsb-release
-curl -sL https://raw.githubusercontent.com/wimpysworld/deb-get/main/deb-get | sudo -E bash -s install deb-get
-deb-get install topgrade
+curl -s https://api.github.com/repos/topgrade-rs/topgrade/releases/latest | awk -F\" '/topgrade-v.*-x86_64-unknown-linux-gnu.tar.gz/{print $(NF-1)}' | tail -1 | wget -i-
+
+tar xvf topgrade*
+
+mkdir -p $HOME/.local/bin
+
+mv topgrade $HOME/.local/bin/
 
 if [ -f upgrade.desktop ]; then
   sudo cp upgrade.desktop /usr/share/xsessions/
