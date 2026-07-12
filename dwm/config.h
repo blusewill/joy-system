@@ -39,8 +39,7 @@ static const Rule rules[] = {
 static const char *const autostart[] = {
     "sh", "-c", "$HOME/.config/session.sh", NULL,
     "volumeicon", NULL,
-    "fcitx5", NULL,
-    NULL
+    "fcitx5", NULL
 };
 
 /* layout(s) */
