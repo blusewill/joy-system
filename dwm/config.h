@@ -40,7 +40,7 @@ static const char *const autostart[] = {
     "sh", "-c", "$HOME/.config/session.sh", NULL,
     "volumeicon", NULL,
     "fcitx5", NULL,
-	  NULL
+    NULL
 };
 
 /* layout(s) */
