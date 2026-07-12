@@ -1,5 +1,7 @@
 #!/bin/sh
 
+sleep 1
+
 # 啟動 Chrome
 chromium "https://testcloud.joyedugroup.com" --incognito &
 CHROME_PID=$!
