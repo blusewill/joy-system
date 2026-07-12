@@ -118,7 +118,19 @@ if [ -f dwm.desktop ]; then
   sudo cp dwm.desktop /usr/share/xsessions/
 fi
 
+if [ -f upgrade.desktop ]; then
+  sudo cp upgrade.desktop /usr/share/xsessions/
+fi
+
 sudo rm -f /usr/share/xsessions/lightdm-xsession.desktop
+
+sudo rm -f /etc/lightdm/lightdm.conf
+
+cd "$HOME/joy-system"
+
+if [ -f lightdm.conf ]; then
+  sudo cp lightdm.conf /etc/lightdm/
+fi
 
 sudo systemctl enable lightdm
 
@@ -189,10 +201,6 @@ tar xvf topgrade*
 mkdir -p $HOME/.local/bin
 
 mv topgrade $HOME/.local/bin/
-
-if [ -f upgrade.desktop ]; then
-  sudo cp upgrade.desktop /usr/share/xsessions/
-fi
 
 ########################################
 # Finish
