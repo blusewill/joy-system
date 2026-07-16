@@ -28,9 +28,11 @@ fc-cache -fv
 echo
 echo "Copy Config..."
 
+cd joy-system
+
 mkdir -p ~/.config
 
-cp ./joy-system/session.sh ~/.config/
+cp session.sh ~/.config/
 chmod +x ~/.config/session.sh
 
 cp -a dotconfig/. ~/.config/
