@@ -30,7 +30,7 @@ echo "Copy Config..."
 
 mkdir -p ~/.config
 
-cp session.sh ~/.config/
+cp ./joy-system/session.sh ~/.config/
 chmod +x ~/.config/session.sh
 
 cp -a dotconfig/. ~/.config/
