@@ -3,7 +3,7 @@
 sleep 1
 
 # 啟動 Chrome
-chromium "https://testcloud.joyedugroup.com" --incognito &
+chromium "https://testcloud.joy.com.tw" --incognito &
 CHROME_PID=$!
 
 # 等待 Chrome 結束
